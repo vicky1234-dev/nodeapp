@@ -1,0 +1,119 @@
+body {
+    background-color: saddlebrown;
+}
+
+.signup , .loginpage , .login , .mk  , .edit , .delete , .signout {
+    margin: 10px auto;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 10px;
+}
+
+table {
+    text-align: left;
+    margin: auto;
+}
+
+.res {
+    max-width: 800px;
+}
+
+.all td , .all th {
+    padding: 10px 35px;
+    vertical-align: text-top;
+}
+
+.items {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 30px;
+}
+.main {
+    background-color: #2ebcff;
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+}
+
+input {
+    border: none;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.main input {
+    width: 300px;
+    margin: 10px 10px;
+}
+
+.all input {
+    width: auto;
+
+
+}
+
+.main span {
+    color: white;
+}
+
+.section {
+    max-width: 70%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn2 {
+    appearance: button;
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(buttontext, rgb(170, 170, 170));
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(74, 74, 74));
+    box-sizing: border-box;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+}
+
+.v input {
+    margin: 10px auto;
+}
+
+textarea {
+    width: 400px;
+    height: 300px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.date {
+    min-width: 98px;
+}
+
+.number .chninput {
+    width: 70px;
+}
+
+.des  {
+    max-width: 160px;
+}
+
+.des span {
+    word-break: break-all;
+}
+
+.all input {
+    margin: 10px 0px;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        Welcome to reservation portal<br>
+        <div class="items">
+            <span>Your mail </span>
+            <input type="email" name="email" class="email" >
+        </div>  
+        <div class="items">
+            <span>Enter password</span>
+            <input type="password" name="password" class="password" >
+        </div>
+        <button class="login">login</button>
+        <button onclick="window.location.href='/signup.html'" class="signup">sign up</a>
+    
+    </div>
+
+    <script>
+
+        $('.login').click(function(){     //make login request
+            $.post("/login", { email: $('input:eq(0)').val(), password: $('input:eq(1)').val() } ,function(data){
+                
+               data.lines && alert(data.lines);  //alert server response
+               if( data.success ) location.replace("https://morning-refuge-96755.herokuapp.com/reservation.html");
+                        //if login success going to reservation page
+            });
+        })
+    
+    </script>
+</body>
+</html>

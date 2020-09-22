@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>         
+</head>
+<body>
+    <div class="main">
+        Welcome <span></span><br>
+        <button class="mk">Make new reservation</button>
+        <button onclick="window.location.href='/'" class="signout">Sign out</button>
+        
+        <br>Your reservations are<br><br>
+
+        <table class="all">
+                <tr>
+                    <th>Date </th>
+                    <th>Description</th>
+                    <th>Number</th>
+                </tr>
+        </table>
+    </div>
+    <script>
+
+        let makenewReservation = ` <div class='v'>  
+            <span>Enter your name</span>
+            <input type="text" name="name" value="afw"><br>
+            <span>Enter your phone </span>
+            <input type="number" name="number" class="numbers" required><br>
+            <span> Choose date to choose  </span>
+            <input type="date" name="date"><br>
+            <span>Description of reservation</span><br>
+            <textarea type="text" name="d">
+            </textarea><br>   
+            <button class="create">ADD</button>
+        </div>`
+        
+        let email,nameofuser
+        $.get("/res", function(data, status){   //get name and mail of logged user
+                    
+            if(!data.email) window.location.href='/';
+                    email = data.email;
+                    nameofuser = data.name
+                    
+                    $('span:eq(0)').html(nameofuser[0].username) //name of user
+                
+        });
+
+        $.get("/getdata", function(data, status){    //get all data from db
+
+            data.rows.forEach(data => {
+                $('.all tbody').append(`
+                <tr class='res'>
+                    <td class="date"><span>${data.date.slice(0,data.date.indexOf('T'))}</span></td>
+                    <td class="des"><span>${data.des}</span></td>
+                    <td class='number'><span>${data.number}</span></td>
+                    <td><button class="edit">edit</button></td>
+                    <td><button class="delete">delete</button></td>
+                </tr><br>`)
+            });
+
+            $('.delete').click(function () {    //delete button click
+                
+                $.post("/delete", { 
+                    datetodelete:$(this).parent().parent().find('.date span').html() 
+                },function (data) {
+                    alert(`deleted`)
+                    location.reload()
+                })
+            })
+
+            $('.edit').click(function () {    //edit button click
+
+                const olddate = $(this).parent().parent().find('.date span').html()
+                let _this = this
+                $(this).off('click')
+                $(this).click(function(){
+                    $.post("/edit", { 
+                        newdate: $(this).parent().parent().find('input:eq(0)').val() ,
+                        newdes: $(this).parent().parent().find('input:eq(1)').val() ,
+                        newnumber: $(this).parent().parent().find('input:eq(2)').val(),
+                        olddate: olddate
+                    },
+                    function (data) {
+                        alert(`edited`)
+                        location.reload()
+                    })
+                })
+                this.innerHTML = 'save'
+
+                $(this).parent().parent().find('span').replaceWith(function(n){  
+                    return `<input class='chninput' value='${$(this).html() }'>`;
+                })
+            })
+        });
+
+
+        $('.mk').click( function(){ //make reservation button click
+
+                $('.all').html('')
+                if($('.v').length) {
+                    return
+                }
+                $('.main').append(makenewReservation)  // make new reservation
+
+                $('.create').click(function(){  //add reservation btn
+                       
+                    if( $('input:eq(0)').val() == '') {
+                        alert('enter name')
+                        return
+                    }
+                    if( $('input:eq(1)').val() == '') {
+                        alert('enter number')
+                        return
+                    }
+
+                    if( $('input:eq(3)').val() == '') {
+                        alert('enter description')
+                        return
+                    }
+                    $.post("/create", { 
+                        name: $('input:eq(0)').val(), 
+                        email: email,
+                        number:  $('input:eq(1)').val(), 
+                        date: $('input:eq(2)').val(), 
+                        des: $('textarea').val() 
+                    },
+                    function(data){
+                            if(data.lines) { 
+                                alert(data.lines) 
+                                location.reload()
+                            } 
+                            else { 
+                                $('div').last().remove()
+                                alert('reservation for that date is already done')  
+                                location.reload()
+                            }
+                            }    )
+                })
+
+        })
+    </script>
+</body>
+</html> 

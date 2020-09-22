@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <div class="main">
+        Sign up
+        <div class="section">
+            <span>Enter your name</span>
+            <input type="text" name="name">
+        </div>
+        <div class="section">
+            <span>Enter your mail </span>
+            <input type="email" name="email" class="email" required>
+        </div>
+        <div class="section">
+            <span>Set password</span>
+            <input type="password" name="password" class="password" required>
+        </div>
+        <div class="section">
+            <span>Confirm password</span>
+            <input type="password" name="password" class="cpass" required>
+        </div>
+
+    <button  type="submit" class="signup">Sign up</button>
+    <button onclick="window.location.href='/'" class="loginpage">Go to login page</button>
+    </div>
+    <script>
+
+
+        
+        $(".cpass").blur(function(){      //password match
+           if ( this.value !== $('.password').val() ){
+               alert('passwords not match') 
+               return
+           }
+        });
+
+        $(".signup").click(function(){   //signup button
+            
+            if( $('input:eq(0)').val() == '') {
+                alert('enter name')
+                return
+            }
+            if( $('input:eq(1)').val() == '') {
+                alert('enter email')
+                return
+            }
+
+            $.post("/db", { name: $('input:eq(0)').val(), email:  $('input:eq(1)').val(), password: $('input:eq(2)').val() } ,function(data){
+                alert(data.lines);
+            });
+        });
+        </script>
+</body>
+</html>
